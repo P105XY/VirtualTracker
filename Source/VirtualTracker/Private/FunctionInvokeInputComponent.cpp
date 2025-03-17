@@ -1,17 +1,27 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "FunctionInvokeManager.h"
+#include "FunctionInvokeInputComponent.h"
 #include "FunctionInvokeData.h"
-#include "FunctionInvokeStruct.h"
 
-// Sets default values
-AFunctionInvokeManager::AFunctionInvokeManager()
+const FName ActionFunction_META = TEXT("ActionFunction");
+const FName SliderFunction_META = TEXT("SliderFunction");
+const FName ColorFunction_META = TEXT("ColorFunction");
+const FName BooleanFunction_META = TEXT("BooleanFunction");
+const FName StringFunction_META = TEXT("StringFunction");
+const FName IntFunction_META = TEXT("IntFunction");
+const FName TextureFunction_META = TEXT("TextureFunction");
+const FName NameFunction_META = TEXT("FNameFunction");
+const FName Vector2DFunction_META = TEXT("Vector2DFunction");
+const FName Vector3DFunction_META = TEXT("Vector3DFunction");
+
+UFunctionInvokeInputComponent::UFunctionInvokeInputComponent()
 {
-	
 }
 
-void AFunctionInvokeManager::InitInvokeManager(UObject* InvokeObject, EFieldIteratorFlags::SuperClassFlags SuperClassFlag, EFieldIteratorFlags::DeprecatedPropertyFlags DeprecatedFieldFlag, EFieldIteratorFlags::InterfaceClassFlags InterfaceFieldFlag)
+//해당 함수에서는 함수 찾기 및 리스트에 저장만 진행.
+//실제 함수의 Invoke는 아래 함수에서 진행하도록 한다.
+void UFunctionInvokeInputComponent::InitInvokeManager(UObject* InvokeObject, EFieldIteratorFlags::SuperClassFlags SuperClassFlag, EFieldIteratorFlags::DeprecatedPropertyFlags DeprecatedFieldFlag, EFieldIteratorFlags::InterfaceClassFlags InterfaceFieldFlag)
 {
 	UFunctionInvokeData* TempFuncData = UFunctionInvokeData::GetDataPtr();
 	FuncData = TempFuncData;
@@ -40,48 +50,48 @@ void AFunctionInvokeManager::InitInvokeManager(UObject* InvokeObject, EFieldIter
 
 		if (FuncData->HasActionFunction(InvokeClass->GetName(), FuncNameStr))
 		{
-
+			ActionFunctionInvokeArray.Add(FuncInvokeData);
 		}
 		else if (FuncData->HasSliderFunction(InvokeClass->GetName(), FuncNameStr))
 		{
-
+			SliderFunctionInvokeArray.Add(FuncInvokeData);
 		}
 		else if (FuncData->HasColorFunction(InvokeClass->GetName(), FuncNameStr))
 		{
-
+			ColorFunctionInvokeArray.Add(FuncInvokeData);
 		}
 		else if (FuncData->HasBooleanFunction(InvokeClass->GetName(), FuncNameStr))
 		{
-
+			BooleanFunctionInvokeArray.Add(FuncInvokeData);
 		}
 		else if (FuncData->HasStringFunction(InvokeClass->GetName(), FuncNameStr))
 		{
-
+			StringFunctionInvokeArray.Add(FuncInvokeData);
 		}
 		else if (FuncData->HasIntFunction(InvokeClass->GetName(), FuncNameStr))
 		{
-
+			IntFunctionInvokeArray.Add(FuncInvokeData);
 		}
 		else if (FuncData->HasTextureFunction(InvokeClass->GetName(), FuncNameStr))
 		{
-
+			TextureFunctionInvokeArray.Add(FuncInvokeData);
 		}
 		else if (FuncData->HasNameFunction(InvokeClass->GetName(), FuncNameStr))
 		{
-
+			NameFunctionInvokeArray.Add(FuncInvokeData);
 		}
 		else if (FuncData->HasVector2DFunction(InvokeClass->GetName(), FuncNameStr))
 		{
-
+			Vector2DFunctionInvokeArray.Add(FuncInvokeData);
 		}
 		else if (FuncData->HasVector3DFunction(InvokeClass->GetName(), FuncNameStr))
 		{
-
+			Vector3DFunctionInvokeArray.Add(FuncInvokeData);
 		}
 	}
 }
 
-void AFunctionInvokeManager::ActionFunctionInvoke(FName FunctionName)
+void UFunctionInvokeInputComponent::ActionFunctionInvoke(FName FunctionName)
 {
 	if (FunctionName.IsNone())
 	{
@@ -113,7 +123,7 @@ void AFunctionInvokeManager::ActionFunctionInvoke(FName FunctionName)
 	}
 }
 
-void AFunctionInvokeManager::SliderFunctionInvoke(FName FunctionName, float FuncParam)
+void UFunctionInvokeInputComponent::SliderFunctionInvoke(FName FunctionName, float FuncParam)
 {
 	if (FunctionName.IsNone())
 	{
@@ -126,10 +136,9 @@ void AFunctionInvokeManager::SliderFunctionInvoke(FName FunctionName, float Func
 	{
 
 	}
-
 }
 
-void AFunctionInvokeManager::ColorFunctionInvoke(FName FunctionName, FLinearColor FuncParam)
+void UFunctionInvokeInputComponent::ColorFunctionInvoke(FName FunctionName, FLinearColor FuncParam)
 {
 	if (FunctionName.IsNone())
 	{
@@ -144,7 +153,7 @@ void AFunctionInvokeManager::ColorFunctionInvoke(FName FunctionName, FLinearColo
 	}
 }
 
-void AFunctionInvokeManager::BooleanFunctionInvoke(FName FunctionName, bool FuncParam)
+void UFunctionInvokeInputComponent::BooleanFunctionInvoke(FName FunctionName, bool FuncParam)
 {
 	if (FunctionName.IsNone())
 	{
@@ -159,7 +168,7 @@ void AFunctionInvokeManager::BooleanFunctionInvoke(FName FunctionName, bool Func
 	}
 }
 
-void AFunctionInvokeManager::StringFunctionInvoke(FName FunctionName, FString FuncParam)
+void UFunctionInvokeInputComponent::StringFunctionInvoke(FName FunctionName, FString FuncParam)
 {
 	if (FunctionName.IsNone())
 	{
@@ -174,7 +183,7 @@ void AFunctionInvokeManager::StringFunctionInvoke(FName FunctionName, FString Fu
 	}
 }
 
-void AFunctionInvokeManager::IntFunctionInvoke(FName FunctionName, int32 FuncParam)
+void UFunctionInvokeInputComponent::IntFunctionInvoke(FName FunctionName, int32 FuncParam)
 {
 	if (FunctionName.IsNone())
 	{
@@ -189,7 +198,7 @@ void AFunctionInvokeManager::IntFunctionInvoke(FName FunctionName, int32 FuncPar
 	}
 }
 
-void AFunctionInvokeManager::TextureFunctionInvoke(FName FunctionName)
+void UFunctionInvokeInputComponent::TextureFunctionInvoke(FName FunctionName)
 {
 	if (FunctionName.IsNone())
 	{
@@ -204,7 +213,7 @@ void AFunctionInvokeManager::TextureFunctionInvoke(FName FunctionName)
 	}
 }
 
-void AFunctionInvokeManager::NameFunctionInvoke(FName FunctionName, FName FuncParam)
+void UFunctionInvokeInputComponent::NameFunctionInvoke(FName FunctionName, FName FuncParam)
 {
 	if (FunctionName.IsNone())
 	{
@@ -219,7 +228,7 @@ void AFunctionInvokeManager::NameFunctionInvoke(FName FunctionName, FName FuncPa
 	}
 }
 
-void AFunctionInvokeManager::Vector2DFunctionInvoke(FName FunctionName, FVector2D FuncParam)
+void UFunctionInvokeInputComponent::Vector2DFunctionInvoke(FName FunctionName, FVector2D FuncParam)
 {
 	if (FunctionName.IsNone())
 	{
@@ -234,7 +243,7 @@ void AFunctionInvokeManager::Vector2DFunctionInvoke(FName FunctionName, FVector2
 	}
 }
 
-void AFunctionInvokeManager::Vector3DFunctionInvoke(FName FunctionName, FVector FuncParam)
+void UFunctionInvokeInputComponent::Vector3DFunctionInvoke(FName FunctionName, FVector FuncParam)
 {
 	if (FunctionName.IsNone())
 	{
@@ -247,15 +256,4 @@ void AFunctionInvokeManager::Vector3DFunctionInvoke(FName FunctionName, FVector 
 	{
 
 	}
-}
-
-void AFunctionInvokeManager::PostInitProperties()
-{
-	Super::PostInitProperties();
-	UE_LOG(LogTemp, Log, TEXT("PostInitProperties"));
-}
-
-void AFunctionInvokeManager::OnCompiled()
-{
-	UE_LOG(LogTemp, Log, TEXT("On Compiled"));
 }

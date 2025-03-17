@@ -2,7 +2,7 @@
 
 #include "FunctionInvokeData.h"
 #include "AssetRegistry/AssetRegistryModule.h"
-#include "FunctionInvokeStruct.h"
+#include "FunctionInvokeInputComponent.h"
 #include "UObject/SavePackage.h"
 
 TWeakObjectPtr<UFunctionInvokeData> UFunctionInvokeData::DataPtr;

@@ -46,7 +46,7 @@ public:
 };
 
 /**
- *
+ * Function Invoke를 위한 기본 클래스.
  */
 UCLASS()
 class VIRTUALTRACKER_API UFunctionInvokeData : public UDataAsset
