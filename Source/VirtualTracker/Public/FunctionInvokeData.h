@@ -81,53 +81,44 @@ public:
 	bool HasVector2DFunction(FString ClassName, FString FunctionName) const;
 	bool HasVector3DFunction(FString ClassName, FString FunctionName) const;
 
-	TArray<FFunctionData> GetActionFunction() const;
-	TArray<FFunctionData> GetSliderFunction() const;
-	TArray<FFunctionData> GetColorFunction() const;
-	TArray<FFunctionData> GetBooleanFunction() const;
-	TArray<FFunctionData> GetStringFunction() const;
-	TArray<FFunctionData> GetIntFunction() const;
-	TArray<FFunctionData> GetTextureFunction() const;
-	TArray<FFunctionData> GetNameFunction() const;
-	TArray<FFunctionData> GetVector2DFunction() const;
-	TArray<FFunctionData> GetVector3DFunction() const;
-
 private:
 	void CreateFunctionData();
 	void ResetFunctionData();
+	void RefreshFunctionData();
 
 private:
 	static TWeakObjectPtr<UFunctionInvokeData> DataPtr;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	TMap<FName, FFunctionData> ActionFuncList;
+	TSet<FName> ActionFunctionSet;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	TMap<FName, FFunctionData> SliderFuncList;
+	TSet<FName> SliderFunctionSset;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	TMap<FName, FFunctionData> ColorFuncList;
+	TSet<FName> ColorFunctionSet;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	TMap<FName, FFunctionData> BooleanFuncList;
+	TSet<FName> BooleanFunctionSet;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	TMap<FName, FFunctionData> StringFuncList;
+	TSet<FName> StringFunctionSet;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	TMap<FName, FFunctionData> IntFuncList;
+	TSet<FName> IntFunctionSet;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	TMap<FName, FFunctionData> TextureFuncList;
+	TSet<FName> TextureFunctionSet;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	TMap<FName, FFunctionData> NameFuncList;
+	TSet<FName> NameFunctionSet;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	TMap<FName, FFunctionData> Vector2DFuncList;
+	TSet<FName> Vector2DFunctionSet;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	TMap<FName, FFunctionData> Vector3DFuncList;
+	TSet<FName> Vector3DFunctionSet;
+
 
 #if WITH_EDITOR
 protected:

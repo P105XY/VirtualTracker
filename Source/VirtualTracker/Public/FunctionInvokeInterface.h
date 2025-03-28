@@ -19,16 +19,16 @@ class VIRTUALTRACKER_API UFunctionInvokeInstigater : public UObject
 	GENERATED_BODY()
 
 public:
-	void ActionFunctionInvoke(FName FunctionName);
-	void SliderFunctionInvoke(FName FunctionName, float FuncParam);
-	void ColorFunctionInvoke(FName FunctionName, FLinearColor FuncParam);
-	void BooleanFunctionInvoke(FName FunctionName, bool FuncParam);
-	void StringFunctionInvoke(FName FunctionName, FString FuncParam);
-	void IntFunctionInvoke(FName FunctionName, int32 FuncParam);
-	void TextureFunctionInvoke(FName FunctionName);
-	void NameFunctionInvoke(FName FunctionName, FName FuncParam);
-	void Vector2DFunctionInvoke(FName FunctionName, FVector2D FuncParam);
-	void Vector3DFunctionInvoke(FName FunctionName, FVector FuncParam);
+	void ActionFunctionInvoke(UObject* OuterObject,FName FunctionName);
+	void SliderFunctionInvoke(UObject* OuterObject,FName FunctionName, float FuncParam);
+	void ColorFunctionInvoke(UObject* OuterObject, FName FunctionName, FLinearColor FuncParam);
+	void BooleanFunctionInvoke(UObject* OuterObject, FName FunctionName, bool FuncParam);
+	void StringFunctionInvoke(UObject* OuterObject, FName FunctionName, FString FuncParam);
+	void IntFunctionInvoke(UObject* OuterObject, FName FunctionName, int32 FuncParam);
+	void TextureFunctionInvoke(UObject* OuterObject, FName FunctionName);
+	void NameFunctionInvoke(UObject* OuterObject, FName FunctionName, FName FuncParam);
+	void Vector2DFunctionInvoke(UObject* OuterObject,FName FunctionName, FVector2D FuncParam);
+	void Vector3DFunctionInvoke(UObject* OuterObject,FName FunctionName, FVector FuncParam);
 };
 
 /**

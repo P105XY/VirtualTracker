@@ -15,13 +15,12 @@ const FName NameFunction_META = TEXT("FNameFunction");
 const FName Vector2DFunction_META = TEXT("Vector2DFunction");
 const FName Vector3DFunction_META = TEXT("Vector3DFunction");
 
-UFunctionInvokeInputComponent::UFunctionInvokeInputComponent()
-{
-}
-
 //해당 함수에서는 함수 찾기 및 리스트에 저장만 진행.
 //실제 함수의 Invoke는 아래 함수에서 진행하도록 한다.
-void UFunctionInvokeInputComponent::InitInvokeManager(UObject* InvokeObject, EFieldIteratorFlags::SuperClassFlags SuperClassFlag, EFieldIteratorFlags::DeprecatedPropertyFlags DeprecatedFieldFlag, EFieldIteratorFlags::InterfaceClassFlags InterfaceFieldFlag)
+void UFunctionInvokeInputComponent::InitInvokeManager(UObject* InvokeObject, 
+	EFieldIteratorFlags::SuperClassFlags SuperClassFlag, 
+	EFieldIteratorFlags::DeprecatedPropertyFlags DeprecatedFieldFlag, 
+	EFieldIteratorFlags::InterfaceClassFlags InterfaceFieldFlag)
 {
 	UFunctionInvokeData* TempFuncData = UFunctionInvokeData::GetDataPtr();
 	FuncData = TempFuncData;
@@ -91,6 +90,16 @@ void UFunctionInvokeInputComponent::InitInvokeManager(UObject* InvokeObject, EFi
 	}
 }
 
+UFunctionInvokeInputComponent* UFunctionInvokeInputComponent::GetInputComponent(APlayerController* PlayerController)
+{
+	if (!PlayerController)
+	{
+		return nullptr;
+	}
+
+	return Cast<UFunctionInvokeInputComponent>(PlayerController->PlayerInput);
+}
+
 void UFunctionInvokeInputComponent::ActionFunctionInvoke(FName FunctionName)
 {
 	if (FunctionName.IsNone())
@@ -98,28 +107,20 @@ void UFunctionInvokeInputComponent::ActionFunctionInvoke(FName FunctionName)
 		return;
 	}
 
-	TArray<FFunctionData> CandidateFuncDataList = FuncData->GetActionFunction();
-
-	for (const FFunctionData& CandidateFunction : CandidateFuncDataList)
+	for (FFunctionInvokeObjectData InvokeObj : ActionFunctionInvokeArray)
 	{
-		UClass* CandidateClass = CandidateFunction.FuncClass;
-		FName CandidateFunctionName = CandidateFunction.FuncName;
-
-		if (!IsValid(CandidateClass))
+		if (!InvokeObj.IsInvokeValid())
 		{
 			continue;
 		}
 
-		if (CandidateFunctionName.IsNone())
+		UObject* FunctionInvokeOwner = InvokeObj.InvokeObject;
+		if (!IsValid(FunctionInvokeOwner))
 		{
 			continue;
 		}
 
-		if (!CandidateFunctionName.IsEqual(FunctionName))
-		{
-			continue;
-		}
-
+		FunctionInvokeOwner->ProcessEvent(InvokeObj.InvokeFunction, nullptr);
 	}
 }
 
@@ -130,11 +131,20 @@ void UFunctionInvokeInputComponent::SliderFunctionInvoke(FName FunctionName, flo
 		return;
 	}
 
-	TArray<FFunctionData> CandidateFuncDataList = FuncData->GetSliderFunction();
-
-	for (const FFunctionData& CandidateFunction : CandidateFuncDataList)
+	for (FFunctionInvokeObjectData InvokeObj : SliderFunctionInvokeArray)
 	{
+		if (!InvokeObj.IsInvokeValid())
+		{
+			continue;
+		}
 
+		UObject* FunctionInvokeOwner = InvokeObj.InvokeObject;
+		if (!IsValid(FunctionInvokeOwner))
+		{
+			continue;
+		}
+
+		FunctionInvokeOwner->ProcessEvent(InvokeObj.InvokeFunction, &FuncParam);
 	}
 }
 
@@ -145,11 +155,20 @@ void UFunctionInvokeInputComponent::ColorFunctionInvoke(FName FunctionName, FLin
 		return;
 	}
 
-	TArray<FFunctionData> CandidateFuncDataList = FuncData->GetColorFunction();
-
-	for (const FFunctionData& CandidateFunction : CandidateFuncDataList)
+	for (FFunctionInvokeObjectData InvokeObj : ColorFunctionInvokeArray)
 	{
+		if (!InvokeObj.IsInvokeValid())
+		{
+			continue;
+		}
 
+		UObject* FunctionInvokeOwner = InvokeObj.InvokeObject;
+		if (!IsValid(FunctionInvokeOwner))
+		{
+			continue;
+		}
+
+		FunctionInvokeOwner->ProcessEvent(InvokeObj.InvokeFunction, &FuncParam);
 	}
 }
 
@@ -160,11 +179,20 @@ void UFunctionInvokeInputComponent::BooleanFunctionInvoke(FName FunctionName, bo
 		return;
 	}
 
-	TArray<FFunctionData> CandidateFuncDataList = FuncData->GetBooleanFunction();
-
-	for (const FFunctionData& CandidateFunction : CandidateFuncDataList)
+	for (FFunctionInvokeObjectData InvokeObj : BooleanFunctionInvokeArray)
 	{
+		if (!InvokeObj.IsInvokeValid())
+		{
+			continue;
+		}
 
+		UObject* FunctionInvokeOwner = InvokeObj.InvokeObject;
+		if (!IsValid(FunctionInvokeOwner))
+		{
+			continue;
+		}
+
+		FunctionInvokeOwner->ProcessEvent(InvokeObj.InvokeFunction, &FuncParam);
 	}
 }
 
@@ -175,11 +203,20 @@ void UFunctionInvokeInputComponent::StringFunctionInvoke(FName FunctionName, FSt
 		return;
 	}
 
-	TArray<FFunctionData> CandidateFuncDataList = FuncData->GetStringFunction();
-
-	for (const FFunctionData& CandidateFunction : CandidateFuncDataList)
+	for (FFunctionInvokeObjectData InvokeObj : StringFunctionInvokeArray)
 	{
+		if (!InvokeObj.IsInvokeValid())
+		{
+			continue;
+		}
 
+		UObject* FunctionInvokeOwner = InvokeObj.InvokeObject;
+		if (!IsValid(FunctionInvokeOwner))
+		{
+			continue;
+		}
+
+		FunctionInvokeOwner->ProcessEvent(InvokeObj.InvokeFunction, &FuncParam);
 	}
 }
 
@@ -190,11 +227,20 @@ void UFunctionInvokeInputComponent::IntFunctionInvoke(FName FunctionName, int32 
 		return;
 	}
 
-	TArray<FFunctionData> CandidateFuncDataList = FuncData->GetIntFunction();
-
-	for (const FFunctionData& CandidateFunction : CandidateFuncDataList)
+	for (FFunctionInvokeObjectData InvokeObj : IntFunctionInvokeArray)
 	{
+		if (!InvokeObj.IsInvokeValid())
+		{
+			continue;
+		}
 
+		UObject* FunctionInvokeOwner = InvokeObj.InvokeObject;
+		if (!IsValid(FunctionInvokeOwner))
+		{
+			continue;
+		}
+
+		FunctionInvokeOwner->ProcessEvent(InvokeObj.InvokeFunction, &FuncParam);
 	}
 }
 
@@ -205,11 +251,20 @@ void UFunctionInvokeInputComponent::TextureFunctionInvoke(FName FunctionName)
 		return;
 	}
 
-	TArray<FFunctionData> CandidateFuncDataList = FuncData->GetTextureFunction();
-
-	for (const FFunctionData& CandidateFunction : CandidateFuncDataList)
+	for (FFunctionInvokeObjectData InvokeObj : TextureFunctionInvokeArray)
 	{
+		if (!InvokeObj.IsInvokeValid())
+		{
+			continue;
+		}
 
+		UObject* FunctionInvokeOwner = InvokeObj.InvokeObject;
+		if (!IsValid(FunctionInvokeOwner))
+		{
+			continue;
+		}
+
+		FunctionInvokeOwner->ProcessEvent(InvokeObj.InvokeFunction, nullptr);
 	}
 }
 
@@ -220,11 +275,20 @@ void UFunctionInvokeInputComponent::NameFunctionInvoke(FName FunctionName, FName
 		return;
 	}
 
-	TArray<FFunctionData> CandidateFuncDataList = FuncData->GetNameFunction();
-
-	for (const FFunctionData& CandidateFunction : CandidateFuncDataList)
+	for (FFunctionInvokeObjectData InvokeObj : NameFunctionInvokeArray)
 	{
+		if (!InvokeObj.IsInvokeValid())
+		{
+			continue;
+		}
 
+		UObject* FunctionInvokeOwner = InvokeObj.InvokeObject;
+		if (!IsValid(FunctionInvokeOwner))
+		{
+			continue;
+		}
+
+		FunctionInvokeOwner->ProcessEvent(InvokeObj.InvokeFunction, &FuncParam);
 	}
 }
 
@@ -235,11 +299,20 @@ void UFunctionInvokeInputComponent::Vector2DFunctionInvoke(FName FunctionName, F
 		return;
 	}
 
-	TArray<FFunctionData> CandidateFuncDataList = FuncData->GetVector2DFunction();
-
-	for (const FFunctionData& CandidateFunction : CandidateFuncDataList)
+	for (FFunctionInvokeObjectData InvokeObj : Vector2DFunctionInvokeArray)
 	{
+		if (!InvokeObj.IsInvokeValid())
+		{
+			continue;
+		}
 
+		UObject* FunctionInvokeOwner = InvokeObj.InvokeObject;
+		if (!IsValid(FunctionInvokeOwner))
+		{
+			continue;
+		}
+
+		FunctionInvokeOwner->ProcessEvent(InvokeObj.InvokeFunction, &FuncParam);
 	}
 }
 
@@ -250,10 +323,19 @@ void UFunctionInvokeInputComponent::Vector3DFunctionInvoke(FName FunctionName, F
 		return;
 	}
 
-	TArray<FFunctionData> CandidateFuncDataList = FuncData->GetVector3DFunction();
-
-	for (const FFunctionData& CandidateFunction : CandidateFuncDataList)
+	for (FFunctionInvokeObjectData InvokeObj : Vector3DFunctionInvokeArray)
 	{
+		if (!InvokeObj.IsInvokeValid())
+		{
+			continue;
+		}
 
+		UObject* FunctionInvokeOwner = InvokeObj.InvokeObject;
+		if (!IsValid(FunctionInvokeOwner))
+		{
+			continue;
+		}
+
+		FunctionInvokeOwner->ProcessEvent(InvokeObj.InvokeFunction, &FuncParam);
 	}
 }

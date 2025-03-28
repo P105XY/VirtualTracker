@@ -21,7 +21,7 @@ UFunctionInvokeData* UFunctionInvokeData::GetDataPtr()
 {
 	if (!DataPtr.IsValid())
 	{
-		FString DataPath = TEXT("/Engine/FunctionInvoke/BP_FuncInvoke");
+		FString DataPath = TEXT("/Game/FunctionInvoke/BP_FuncInvoke.BP_FuncInvoke");
 		DataPtr = LoadObject<UFunctionInvokeData>(GetTransientPackage(), *DataPath);
 	}
 
@@ -37,9 +37,8 @@ void UFunctionInvokeData::AddActionFunction(UClass* ClassName, FString FunctionN
 
 	FName FunctionFName = FName(*FunctionName);
 
-	FFunctionData FuncElemData = FFunctionData(FunctionFName, ClassName);
-	TTuple<FName, FFunctionData> InsertElem = TTuple<FName, FFunctionData>(FunctionFName, FuncElemData);
-	ActionFuncList.Add(InsertElem);
+	FString FuncElemStr = FString::Printf(TEXT("%s_%s"), *ClassName->GetName(), *FunctionName);
+	ActionFunctionSet.Add(FName(*FuncElemStr));
 }
 
 void UFunctionInvokeData::AddSliderFunction(UClass* ClassName, FString FunctionName)
@@ -52,8 +51,9 @@ void UFunctionInvokeData::AddSliderFunction(UClass* ClassName, FString FunctionN
 	FName FunctionFName = FName(*FunctionName);
 
 	FFunctionData FuncElemData = FFunctionData(FunctionFName, ClassName);
-	TTuple<FName, FFunctionData> InsertElem = TTuple<FName, FFunctionData>(FunctionFName, FuncElemData);
-	SliderFuncList.Add(InsertElem);
+
+	FString FuncElemStr = FString::Printf(TEXT("%s_%s"), *ClassName->GetName(), *FunctionName);
+	ActionFunctionSet.Add(FName(*FuncElemStr));
 }
 
 void UFunctionInvokeData::AddColorFunction(UClass* ClassName, FString FunctionName)
@@ -66,8 +66,9 @@ void UFunctionInvokeData::AddColorFunction(UClass* ClassName, FString FunctionNa
 	FName FunctionFName = FName(*FunctionName);
 
 	FFunctionData FuncElemData = FFunctionData(FunctionFName, ClassName);
-	TTuple<FName, FFunctionData> InsertElem = TTuple<FName, FFunctionData>(FunctionFName, FuncElemData);
-	ColorFuncList.Add(InsertElem);
+
+	FString FuncElemStr = FString::Printf(TEXT("%s_%s"), *ClassName->GetName(), *FunctionName);
+	ActionFunctionSet.Add(FName(*FuncElemStr));
 }
 
 void UFunctionInvokeData::AddBooleanFunction(UClass* ClassName, FString FunctionName)
@@ -80,8 +81,9 @@ void UFunctionInvokeData::AddBooleanFunction(UClass* ClassName, FString Function
 	FName FunctionFName = FName(*FunctionName);
 
 	FFunctionData FuncElemData = FFunctionData(FunctionFName, ClassName);
-	TTuple<FName, FFunctionData> InsertElem = TTuple<FName, FFunctionData>(FunctionFName, FuncElemData);
-	BooleanFuncList.Add(InsertElem);
+
+	FString FuncElemStr = FString::Printf(TEXT("%s_%s"), *ClassName->GetName(), *FunctionName);
+	ActionFunctionSet.Add(FName(*FuncElemStr));
 }
 
 void UFunctionInvokeData::AddStringFunction(UClass* ClassName, FString FunctionName)
@@ -94,8 +96,9 @@ void UFunctionInvokeData::AddStringFunction(UClass* ClassName, FString FunctionN
 	FName FunctionFName = FName(*FunctionName);
 
 	FFunctionData FuncElemData = FFunctionData(FunctionFName, ClassName);
-	TTuple<FName, FFunctionData> InsertElem = TTuple<FName, FFunctionData>(FunctionFName, FuncElemData);
-	StringFuncList.Add(InsertElem);
+
+	FString FuncElemStr = FString::Printf(TEXT("%s_%s"), *ClassName->GetName(), *FunctionName);
+	ActionFunctionSet.Add(FName(*FuncElemStr));
 }
 
 void UFunctionInvokeData::AddIntFunction(UClass* ClassName, FString FunctionName)
@@ -108,8 +111,9 @@ void UFunctionInvokeData::AddIntFunction(UClass* ClassName, FString FunctionName
 	FName FunctionFName = FName(*FunctionName);
 
 	FFunctionData FuncElemData = FFunctionData(FunctionFName, ClassName);
-	TTuple<FName, FFunctionData> InsertElem = TTuple<FName, FFunctionData>(FunctionFName, FuncElemData);
-	IntFuncList.Add(InsertElem);
+
+	FString FuncElemStr = FString::Printf(TEXT("%s_%s"), *ClassName->GetName(), *FunctionName);
+	ActionFunctionSet.Add(FName(*FuncElemStr));
 }
 
 void UFunctionInvokeData::AddTextureFunction(UClass* ClassName, FString FunctionName)
@@ -122,8 +126,9 @@ void UFunctionInvokeData::AddTextureFunction(UClass* ClassName, FString Function
 	FName FunctionFName = FName(*FunctionName);
 
 	FFunctionData FuncElemData = FFunctionData(FunctionFName, ClassName);
-	TTuple<FName, FFunctionData> InsertElem = TTuple<FName, FFunctionData>(FunctionFName, FuncElemData);
-	TextureFuncList.Add(InsertElem);
+
+	FString FuncElemStr = FString::Printf(TEXT("%s_%s"), *ClassName->GetName(), *FunctionName);
+	ActionFunctionSet.Add(FName(*FuncElemStr));
 }
 
 void UFunctionInvokeData::AddNameFunction(UClass* ClassName, FString FunctionName)
@@ -136,8 +141,9 @@ void UFunctionInvokeData::AddNameFunction(UClass* ClassName, FString FunctionNam
 	FName FunctionFName = FName(*FunctionName);
 
 	FFunctionData FuncElemData = FFunctionData(FunctionFName, ClassName);
-	TTuple<FName, FFunctionData> InsertElem = TTuple<FName, FFunctionData>(FunctionFName, FuncElemData);
-	NameFuncList.Add(InsertElem);
+
+	FString FuncElemStr = FString::Printf(TEXT("%s_%s"), *ClassName->GetName(), *FunctionName);
+	ActionFunctionSet.Add(FName(*FuncElemStr));
 }
 
 void UFunctionInvokeData::AddVector2DFunction(UClass* ClassName, FString FunctionName)
@@ -150,8 +156,9 @@ void UFunctionInvokeData::AddVector2DFunction(UClass* ClassName, FString Functio
 	FName FunctionFName = FName(*FunctionName);
 
 	FFunctionData FuncElemData = FFunctionData(FunctionFName, ClassName);
-	TTuple<FName, FFunctionData> InsertElem = TTuple<FName, FFunctionData>(FunctionFName, FuncElemData);
-	Vector2DFuncList.Add(InsertElem);
+
+	FString FuncElemStr = FString::Printf(TEXT("%s_%s"), *ClassName->GetName(), *FunctionName);
+	ActionFunctionSet.Add(FName(*FuncElemStr));
 }
 
 void UFunctionInvokeData::AddVector3DFunction(UClass* ClassName, FString FunctionName)
@@ -164,8 +171,9 @@ void UFunctionInvokeData::AddVector3DFunction(UClass* ClassName, FString Functio
 	FName FunctionFName = FName(*FunctionName);
 
 	FFunctionData FuncElemData = FFunctionData(FunctionFName, ClassName);
-	TTuple<FName, FFunctionData> InsertElem = TTuple<FName, FFunctionData>(FunctionFName, FuncElemData);
-	Vector3DFuncList.Add(InsertElem);
+
+	FString FuncElemStr = FString::Printf(TEXT("%s_%s"), *ClassName->GetName(), *FunctionName);
+	ActionFunctionSet.Add(FName(*FuncElemStr));
 }
 
 bool UFunctionInvokeData::HasActionFunction(FString ClassName, FString FunctionName) const
@@ -182,16 +190,12 @@ bool UFunctionInvokeData::HasActionFunction(FString ClassName, FString FunctionN
 
 	bool bIsFunctionValid = false;
 
-	for (const TTuple<FName, FFunctionData>& CandidateFunc : ActionFuncList)
+	for (const FName& CandidateFunc : ActionFunctionSet)
 	{
-		FFunctionData CandidateFuncData = CandidateFunc.Value;
-		FName FuncFName = FName(*FunctionName);
-		if (!CandidateFuncData.FuncName.IsEqual(FuncFName))
-		{
-			continue;
-		}
+		FString CandidateClassName;
+		FString CandidateFunctionName;
 
-		if (!CandidateFuncData.IsDataValid())
+		if (!CandidateFunc.ToString().Equals(FunctionName))
 		{
 			continue;
 		}
@@ -218,16 +222,9 @@ bool UFunctionInvokeData::HasSliderFunction(FString ClassName, FString FunctionN
 	bool bIsFunctionValid = false;
 
 
-	for (const TTuple<FName, FFunctionData>& CandidateFunc : SliderFuncList)
+	for (const FName& CandidateFunc : SliderFunctionSset)
 	{
-		FFunctionData CandidateFuncData = CandidateFunc.Value;
-		FName FuncFName = FName(*FunctionName);
-		if (!CandidateFuncData.FuncName.IsEqual(FuncFName))
-		{
-			continue;
-		}
-
-		if (!CandidateFuncData.IsDataValid())
+		if (!CandidateFunc.ToString().Equals(FunctionName))
 		{
 			continue;
 		}
@@ -254,16 +251,9 @@ bool UFunctionInvokeData::HasColorFunction(FString ClassName, FString FunctionNa
 	bool bIsFunctionValid = false;
 
 
-	for (const TTuple<FName, FFunctionData>& CandidateFunc : ColorFuncList)
+	for (const FName& CandidateFunc : ColorFunctionSet)
 	{
-		FFunctionData CandidateFuncData = CandidateFunc.Value;
-		FName FuncFName = FName(*FunctionName);
-		if (!CandidateFuncData.FuncName.IsEqual(FuncFName))
-		{
-			continue;
-		}
-
-		if (!CandidateFuncData.IsDataValid())
+		if (!CandidateFunc.ToString().Equals(FunctionName))
 		{
 			continue;
 		}
@@ -289,16 +279,9 @@ bool UFunctionInvokeData::HasBooleanFunction(FString ClassName, FString Function
 
 	bool bIsFunctionValid = false;
 
-	for (const TTuple<FName, FFunctionData>& CandidateFunc : BooleanFuncList)
+	for (const FName& CandidateFunc : BooleanFunctionSet)
 	{
-		FFunctionData CandidateFuncData = CandidateFunc.Value;
-		FName FuncFName = FName(*FunctionName);
-		if (!CandidateFuncData.FuncName.IsEqual(FuncFName))
-		{
-			continue;
-		}
-
-		if (!CandidateFuncData.IsDataValid())
+		if (!CandidateFunc.ToString().Equals(FunctionName))
 		{
 			continue;
 		}
@@ -324,16 +307,9 @@ bool UFunctionInvokeData::HasStringFunction(FString ClassName, FString FunctionN
 
 	bool bIsFunctionValid = false;
 
-	for (const TTuple<FName, FFunctionData>& CandidateFunc : StringFuncList)
+	for (const FName& CandidateFunc : StringFunctionSet)
 	{
-		FFunctionData CandidateFuncData = CandidateFunc.Value;
-		FName FuncFName = FName(*FunctionName);
-		if (!CandidateFuncData.FuncName.IsEqual(FuncFName))
-		{
-			continue;
-		}
-
-		if (!CandidateFuncData.IsDataValid())
+		if (!CandidateFunc.ToString().Equals(FunctionName))
 		{
 			continue;
 		}
@@ -359,16 +335,9 @@ bool UFunctionInvokeData::HasIntFunction(FString ClassName, FString FunctionName
 
 	bool bIsFunctionValid = false;
 
-	for (const TTuple<FName, FFunctionData>& CandidateFunc : IntFuncList)
+	for (const FName& CandidateFunc : IntFunctionSet)
 	{
-		FFunctionData CandidateFuncData = CandidateFunc.Value;
-		FName FuncFName = FName(*FunctionName);
-		if (!CandidateFuncData.FuncName.IsEqual(FuncFName))
-		{
-			continue;
-		}
-
-		if (!CandidateFuncData.IsDataValid())
+		if (!CandidateFunc.ToString().Equals(FunctionName))
 		{
 			continue;
 		}
@@ -394,16 +363,9 @@ bool UFunctionInvokeData::HasTextureFunction(FString ClassName, FString Function
 
 	bool bIsFunctionValid = false;
 
-	for (const TTuple<FName, FFunctionData>& CandidateFunc : TextureFuncList)
+	for (const FName& CandidateFunc : TextureFunctionSet)
 	{
-		FFunctionData CandidateFuncData = CandidateFunc.Value;
-		FName FuncFName = FName(*FunctionName);
-		if (!CandidateFuncData.FuncName.IsEqual(FuncFName))
-		{
-			continue;
-		}
-
-		if (!CandidateFuncData.IsDataValid())
+		if (!CandidateFunc.ToString().Equals(FunctionName))
 		{
 			continue;
 		}
@@ -429,16 +391,9 @@ bool UFunctionInvokeData::HasNameFunction(FString ClassName, FString FunctionNam
 
 	bool bIsFunctionValid = false;
 
-	for (const TTuple<FName, FFunctionData>& CandidateFunc : NameFuncList)
+	for (const FName& CandidateFunc : NameFunctionSet)
 	{
-		FFunctionData CandidateFuncData = CandidateFunc.Value;
-		FName FuncFName = FName(*FunctionName);
-		if (!CandidateFuncData.FuncName.IsEqual(FuncFName))
-		{
-			continue;
-		}
-
-		if (!CandidateFuncData.IsDataValid())
+		if (!CandidateFunc.ToString().Equals(FunctionName))
 		{
 			continue;
 		}
@@ -464,16 +419,9 @@ bool UFunctionInvokeData::HasVector2DFunction(FString ClassName, FString Functio
 
 	bool bIsFunctionValid = false;
 
-	for (const TTuple<FName, FFunctionData>& CandidateFunc : Vector2DFuncList)
+	for (const FName& CandidateFunc : Vector2DFunctionSet)
 	{
-		FFunctionData CandidateFuncData = CandidateFunc.Value;
-		FName FuncFName = FName(*FunctionName);
-		if (!CandidateFuncData.FuncName.IsEqual(FuncFName))
-		{
-			continue;
-		}
-
-		if (!CandidateFuncData.IsDataValid())
+		if (!CandidateFunc.ToString().Equals(FunctionName))
 		{
 			continue;
 		}
@@ -499,16 +447,9 @@ bool UFunctionInvokeData::HasVector3DFunction(FString ClassName, FString Functio
 
 	bool bIsFunctionValid = false;
 
-	for (const TTuple<FName, FFunctionData>& CandidateFunc : Vector3DFuncList)
+	for (const FName& CandidateFunc : Vector3DFunctionSet)
 	{
-		FFunctionData CandidateFuncData = CandidateFunc.Value;
-		FName FuncFName = FName(*FunctionName);
-		if (!CandidateFuncData.FuncName.IsEqual(FuncFName))
-		{
-			continue;
-		}
-
-		if (!CandidateFuncData.IsDataValid())
+		if (!CandidateFunc.ToString().Equals(FunctionName))
 		{
 			continue;
 		}
@@ -520,140 +461,19 @@ bool UFunctionInvokeData::HasVector3DFunction(FString ClassName, FString Functio
 	return bIsFunctionValid;
 }
 
-TArray<FFunctionData> UFunctionInvokeData::GetActionFunction() const
-{
-	TArray<FFunctionData> ResultList;
-	ActionFuncList.GenerateValueArray(ResultList);
-
-	if (ResultList.IsEmpty())
-	{
-		return TArray<FFunctionData>();
-	}
-
-	return ResultList;
-}
-
-TArray<FFunctionData> UFunctionInvokeData::GetSliderFunction() const
-{
-	TArray<FFunctionData> ResultList;
-	SliderFuncList.GenerateValueArray(ResultList);
-
-	if (ResultList.IsEmpty())
-	{
-		return TArray<FFunctionData>();
-	}
-
-	return ResultList;
-}
-
-TArray<FFunctionData> UFunctionInvokeData::GetColorFunction() const
-{
-	TArray<FFunctionData> ResultList;
-	ColorFuncList.GenerateValueArray(ResultList);
-
-	if (ResultList.IsEmpty())
-	{
-		return TArray<FFunctionData>();
-	}
-
-	return ResultList;
-}
-
-TArray<FFunctionData> UFunctionInvokeData::GetBooleanFunction() const
-{
-	TArray<FFunctionData> ResultList;
-	BooleanFuncList.GenerateValueArray(ResultList);
-
-	if (ResultList.IsEmpty())
-	{
-		return TArray<FFunctionData>();
-	}
-
-	return ResultList;
-}
-
-TArray<FFunctionData> UFunctionInvokeData::GetStringFunction() const
-{
-	TArray<FFunctionData> ResultList;
-	StringFuncList.GenerateValueArray(ResultList);
-
-	if (ResultList.IsEmpty())
-	{
-		return TArray<FFunctionData>();
-	}
-
-	return ResultList;
-}
-
-TArray<FFunctionData> UFunctionInvokeData::GetIntFunction() const
-{
-	TArray<FFunctionData> ResultList;
-	IntFuncList.GenerateValueArray(ResultList);
-
-	if (ResultList.IsEmpty())
-	{
-		return TArray<FFunctionData>();
-	}
-
-	return ResultList;
-}
-
-TArray<FFunctionData> UFunctionInvokeData::GetTextureFunction() const
-{
-	TArray<FFunctionData> ResultList;
-	TextureFuncList.GenerateValueArray(ResultList);
-
-	if (ResultList.IsEmpty())
-	{
-		return TArray<FFunctionData>();
-	}
-
-	return ResultList;
-}
-
-TArray<FFunctionData> UFunctionInvokeData::GetNameFunction() const
-{
-	TArray<FFunctionData> ResultList;
-	NameFuncList.GenerateValueArray(ResultList);
-
-	if (ResultList.IsEmpty())
-	{
-		return TArray<FFunctionData>();
-	}
-
-	return ResultList;
-}
-
-TArray<FFunctionData> UFunctionInvokeData::GetVector2DFunction() const
-{
-	TArray<FFunctionData> ResultList;
-	Vector2DFuncList.GenerateValueArray(ResultList);
-
-	if (ResultList.IsEmpty())
-	{
-		return TArray<FFunctionData>();
-	}
-
-	return ResultList;
-}
-
-TArray<FFunctionData> UFunctionInvokeData::GetVector3DFunction() const
-{
-	TArray<FFunctionData> ResultList;
-	Vector3DFuncList.GenerateValueArray(ResultList);
-
-	if (ResultList.IsEmpty())
-	{
-		return TArray<FFunctionData>();
-	}
-
-	return ResultList;
-}
-
 void UFunctionInvokeData::CreateFunctionData()
 {
 #if WITH_EDITOR
-	FString DataPathName = TEXT("/Engine/FunctionInvoke/BP_FuncInvoke");
+
+	UFunctionInvokeData* FunctionDataPtr = GetDataPtr();
+
+	if (IsValid(FunctionDataPtr))
+	{
+		RefreshFunctionData();
+		return;
+	}
+
+ 	FString DataPathName = TEXT("/Game/FunctionInvoke/BP_FuncInvoke");
 	UPackage* FunctionDataPac = CreatePackage(*DataPathName);
 
 	TObjectPtr<UObject> FuncDataObject = NewObject<UFunctionInvokeData>(FunctionDataPac, UFunctionInvokeData::StaticClass(), TEXT("BP_FuncInvoke"), EObjectFlags::RF_Public | EObjectFlags::RF_Standalone);
@@ -670,7 +490,16 @@ void UFunctionInvokeData::CreateFunctionData()
 	SavePackageArgs.SaveFlags = SAVE_NoError;
 
 	UPackage::SavePackage(FunctionDataPac, nullptr, *PackageFileName, SavePackageArgs);
+	RefreshFunctionData();
+#endif
+}
 
+void UFunctionInvokeData::ResetFunctionData()
+{
+}
+
+void UFunctionInvokeData::RefreshFunctionData()
+{
 	UFunctionInvokeData* InvokeData = GetDataPtr();
 	if (!IsValid(InvokeData))
 	{
@@ -754,15 +583,7 @@ void UFunctionInvokeData::CreateFunctionData()
 				AddVector3DFunction(CandidateInvokeClass, CandidateFunctionName);
 			}
 		}
-
 	}
-
-
-#endif
-}
-
-void UFunctionInvokeData::ResetFunctionData()
-{
 }
 
 void UFunctionInvokeData::PostInitProperties()

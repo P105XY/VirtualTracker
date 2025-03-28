@@ -232,17 +232,22 @@ struct FFunctionInvokeObjectData
 
 public:
 	TObjectPtr<UObject> InvokeObject;
-	TObjectPtr<UFunction> InvokeFunctionName;
+	TObjectPtr<UFunction> InvokeFunction;
 
 	FFunctionInvokeObjectData()
 		: InvokeObject(nullptr)
-		, InvokeFunctionName(nullptr)
+		, InvokeFunction(nullptr)
 	{}
 
-	FFunctionInvokeObjectData(UObject* InUObject, UFunction* InInvokeFunctionName)
+	FFunctionInvokeObjectData(UObject* InUObject, UFunction* InInvokeFunction)
 		: InvokeObject(InUObject)
-		, InvokeFunctionName(InInvokeFunctionName)
+		, InvokeFunction(InInvokeFunction)
 	{}
+
+	bool IsInvokeValid() const
+	{
+		return IsValid(InvokeObject) && IsValid(InvokeFunction);
+	}
 
 };
 
@@ -257,19 +262,19 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnNameInvoke, FName, FuncName, FNa
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnVector3DInvoke, FName, VectorFunctionName, FVector, VectorValue);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnVector2DInvoke, FName, Vector2DFunctionName, FVector2D, Vector2DValue);
 
-UCLASS()
+UCLASS(Within = PlayerController, config = Input, transient)
 class UFunctionInvokeInputComponent : public UEnhancedPlayerInput
 {
 	GENERATED_BODY()
-
-public:
-	UFunctionInvokeInputComponent();
 
 public:
 	void InitInvokeManager(UObject* InvokeObject,
 		EFieldIteratorFlags::SuperClassFlags SuperClassFlag = EFieldIteratorFlags::IncludeSuper,
 		EFieldIteratorFlags::DeprecatedPropertyFlags DeprecatedFieldFlag = EFieldIteratorFlags::ExcludeDeprecated,
 		EFieldIteratorFlags::InterfaceClassFlags InterfaceFieldFlag = EFieldIteratorFlags::ExcludeInterfaces);
+
+public:
+	static UFunctionInvokeInputComponent* GetInputComponent(APlayerController* PlayerController);
 
 public:
 	void ActionFunctionInvoke(FName FunctionName);
