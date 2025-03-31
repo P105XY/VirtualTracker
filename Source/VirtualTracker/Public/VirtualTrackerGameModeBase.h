@@ -18,6 +18,9 @@ class VIRTUALTRACKER_API AVirtualTrackerGameModeBase : public AGameModeBase, pub
 public:
 	AVirtualTrackerGameModeBase();
 
+protected:
+	virtual void BeginPlay() override;
+
 public:
 	UFUNCTION(meta = (ActionFunction))
 	void TextInput();

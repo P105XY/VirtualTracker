@@ -39,6 +39,9 @@ class VIRTUALTRACKER_API IFunctionInvokeInterface
 	GENERATED_BODY()
 
 public:
+	void InitInvokeInterface();
+
+public:
 	UFUNCTION()
 	virtual void ActionFunctionInvoke(FName FunctionName);
 		

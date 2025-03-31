@@ -3,6 +3,8 @@
 
 #include "FunctionInvokeInterface.h"
 #include "FunctionInvokeInputComponent.h"
+#include "VirtualTrackerController.h"
+#include "Kismet/GameplayStatics.h"
 
 // Add default functionality here for any IFunctionInvokeInterface functions that are not pure virtual.
 
@@ -276,6 +278,35 @@ void UFunctionInvokeInstigater::Vector3DFunctionInvoke(UObject* OuterObject, FNa
 	}
 
 	Input->Vector3DFunctionInvoke(FunctionName, FuncParam);
+}
+
+void IFunctionInvokeInterface::InitInvokeInterface()
+{
+	UObject* ThisObject = Cast<UObject>(this);
+	if (!IsValid(ThisObject))
+	{
+		return;
+	}
+
+	UWorld* World = GEngine->GetWorldFromContextObject(ThisObject, EGetWorldErrorMode::LogAndReturnNull);
+	if (!IsValid(World))
+	{
+		return;
+	}
+
+	AVirtualTrackerController* InvokeController = Cast<AVirtualTrackerController>(UGameplayStatics::GetPlayerController(World, 0));
+	if (!IsValid(InvokeController))
+	{
+		return;
+	}
+
+	UFunctionInvokeInputComponent* InvokeInputComponent = InvokeController->GetInvokeInput();
+	if (!IsValid(InvokeInputComponent))
+	{
+		return;
+	}
+
+	InvokeInputComponent->InitInvokeManager(ThisObject);
 }
 
 void IFunctionInvokeInterface::ActionFunctionInvoke(FName FunctionName)

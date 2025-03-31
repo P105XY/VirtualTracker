@@ -15,6 +15,7 @@ UFunctionInvokeData::UFunctionInvokeData()
 			CreateFunctionData();
 		}
 	);
+
 }
 
 UFunctionInvokeData* UFunctionInvokeData::GetDataPtr()
@@ -53,7 +54,7 @@ void UFunctionInvokeData::AddSliderFunction(UClass* ClassName, FString FunctionN
 	FFunctionData FuncElemData = FFunctionData(FunctionFName, ClassName);
 
 	FString FuncElemStr = FString::Printf(TEXT("%s_%s"), *ClassName->GetName(), *FunctionName);
-	ActionFunctionSet.Add(FName(*FuncElemStr));
+	SliderFunctionSset.Add(FName(*FuncElemStr));
 }
 
 void UFunctionInvokeData::AddColorFunction(UClass* ClassName, FString FunctionName)
@@ -68,7 +69,7 @@ void UFunctionInvokeData::AddColorFunction(UClass* ClassName, FString FunctionNa
 	FFunctionData FuncElemData = FFunctionData(FunctionFName, ClassName);
 
 	FString FuncElemStr = FString::Printf(TEXT("%s_%s"), *ClassName->GetName(), *FunctionName);
-	ActionFunctionSet.Add(FName(*FuncElemStr));
+	ColorFunctionSet.Add(FName(*FuncElemStr));
 }
 
 void UFunctionInvokeData::AddBooleanFunction(UClass* ClassName, FString FunctionName)
@@ -83,7 +84,7 @@ void UFunctionInvokeData::AddBooleanFunction(UClass* ClassName, FString Function
 	FFunctionData FuncElemData = FFunctionData(FunctionFName, ClassName);
 
 	FString FuncElemStr = FString::Printf(TEXT("%s_%s"), *ClassName->GetName(), *FunctionName);
-	ActionFunctionSet.Add(FName(*FuncElemStr));
+	BooleanFunctionSet.Add(FName(*FuncElemStr));
 }
 
 void UFunctionInvokeData::AddStringFunction(UClass* ClassName, FString FunctionName)
@@ -98,7 +99,7 @@ void UFunctionInvokeData::AddStringFunction(UClass* ClassName, FString FunctionN
 	FFunctionData FuncElemData = FFunctionData(FunctionFName, ClassName);
 
 	FString FuncElemStr = FString::Printf(TEXT("%s_%s"), *ClassName->GetName(), *FunctionName);
-	ActionFunctionSet.Add(FName(*FuncElemStr));
+	StringFunctionSet.Add(FName(*FuncElemStr));
 }
 
 void UFunctionInvokeData::AddIntFunction(UClass* ClassName, FString FunctionName)
@@ -113,7 +114,7 @@ void UFunctionInvokeData::AddIntFunction(UClass* ClassName, FString FunctionName
 	FFunctionData FuncElemData = FFunctionData(FunctionFName, ClassName);
 
 	FString FuncElemStr = FString::Printf(TEXT("%s_%s"), *ClassName->GetName(), *FunctionName);
-	ActionFunctionSet.Add(FName(*FuncElemStr));
+	IntFunctionSet.Add(FName(*FuncElemStr));
 }
 
 void UFunctionInvokeData::AddTextureFunction(UClass* ClassName, FString FunctionName)
@@ -128,7 +129,7 @@ void UFunctionInvokeData::AddTextureFunction(UClass* ClassName, FString Function
 	FFunctionData FuncElemData = FFunctionData(FunctionFName, ClassName);
 
 	FString FuncElemStr = FString::Printf(TEXT("%s_%s"), *ClassName->GetName(), *FunctionName);
-	ActionFunctionSet.Add(FName(*FuncElemStr));
+	TextureFunctionSet.Add(FName(*FuncElemStr));
 }
 
 void UFunctionInvokeData::AddNameFunction(UClass* ClassName, FString FunctionName)
@@ -143,7 +144,7 @@ void UFunctionInvokeData::AddNameFunction(UClass* ClassName, FString FunctionNam
 	FFunctionData FuncElemData = FFunctionData(FunctionFName, ClassName);
 
 	FString FuncElemStr = FString::Printf(TEXT("%s_%s"), *ClassName->GetName(), *FunctionName);
-	ActionFunctionSet.Add(FName(*FuncElemStr));
+	NameFunctionSet.Add(FName(*FuncElemStr));
 }
 
 void UFunctionInvokeData::AddVector2DFunction(UClass* ClassName, FString FunctionName)
@@ -158,7 +159,7 @@ void UFunctionInvokeData::AddVector2DFunction(UClass* ClassName, FString Functio
 	FFunctionData FuncElemData = FFunctionData(FunctionFName, ClassName);
 
 	FString FuncElemStr = FString::Printf(TEXT("%s_%s"), *ClassName->GetName(), *FunctionName);
-	ActionFunctionSet.Add(FName(*FuncElemStr));
+	Vector2DFunctionSet.Add(FName(*FuncElemStr));
 }
 
 void UFunctionInvokeData::AddVector3DFunction(UClass* ClassName, FString FunctionName)
@@ -173,7 +174,7 @@ void UFunctionInvokeData::AddVector3DFunction(UClass* ClassName, FString Functio
 	FFunctionData FuncElemData = FFunctionData(FunctionFName, ClassName);
 
 	FString FuncElemStr = FString::Printf(TEXT("%s_%s"), *ClassName->GetName(), *FunctionName);
-	ActionFunctionSet.Add(FName(*FuncElemStr));
+	Vector3DFunctionSet.Add(FName(*FuncElemStr));
 }
 
 bool UFunctionInvokeData::HasActionFunction(FString ClassName, FString FunctionName) const
@@ -195,7 +196,14 @@ bool UFunctionInvokeData::HasActionFunction(FString ClassName, FString FunctionN
 		FString CandidateClassName;
 		FString CandidateFunctionName;
 
-		if (!CandidateFunc.ToString().Equals(FunctionName))
+		bool bIsSplited = CandidateFunc.ToString().Split(TEXT("_"), &CandidateClassName, &CandidateFunctionName, ESearchCase::IgnoreCase);
+
+		if (!bIsSplited)
+		{
+			continue;
+		}
+
+		if (!CandidateClassName.Contains(ClassName) && !CandidateFunctionName.Contains(FunctionName))
 		{
 			continue;
 		}
@@ -224,7 +232,17 @@ bool UFunctionInvokeData::HasSliderFunction(FString ClassName, FString FunctionN
 
 	for (const FName& CandidateFunc : SliderFunctionSset)
 	{
-		if (!CandidateFunc.ToString().Equals(FunctionName))
+		FString CandidateClassName;
+		FString CandidateFunctionName;
+
+		bool bIsSplited = CandidateFunc.ToString().Split(TEXT("_"), &CandidateClassName, &CandidateFunctionName, ESearchCase::IgnoreCase);
+
+		if (!bIsSplited)
+		{
+			continue;
+		}
+
+		if (!CandidateClassName.Contains(ClassName) && !CandidateFunctionName.Contains(FunctionName))
 		{
 			continue;
 		}
@@ -253,7 +271,17 @@ bool UFunctionInvokeData::HasColorFunction(FString ClassName, FString FunctionNa
 
 	for (const FName& CandidateFunc : ColorFunctionSet)
 	{
-		if (!CandidateFunc.ToString().Equals(FunctionName))
+		FString CandidateClassName;
+		FString CandidateFunctionName;
+
+		bool bIsSplited = CandidateFunc.ToString().Split(TEXT("_"), &CandidateClassName, &CandidateFunctionName, ESearchCase::IgnoreCase);
+
+		if (!bIsSplited)
+		{
+			continue;
+		}
+
+		if (!CandidateClassName.Contains(ClassName) && !CandidateFunctionName.Contains(FunctionName))
 		{
 			continue;
 		}
@@ -281,7 +309,17 @@ bool UFunctionInvokeData::HasBooleanFunction(FString ClassName, FString Function
 
 	for (const FName& CandidateFunc : BooleanFunctionSet)
 	{
-		if (!CandidateFunc.ToString().Equals(FunctionName))
+		FString CandidateClassName;
+		FString CandidateFunctionName;
+
+		bool bIsSplited = CandidateFunc.ToString().Split(TEXT("_"), &CandidateClassName, &CandidateFunctionName, ESearchCase::IgnoreCase);
+
+		if (!bIsSplited)
+		{
+			continue;
+		}
+
+		if (!CandidateClassName.Contains(ClassName) && !CandidateFunctionName.Contains(FunctionName))
 		{
 			continue;
 		}
@@ -309,7 +347,17 @@ bool UFunctionInvokeData::HasStringFunction(FString ClassName, FString FunctionN
 
 	for (const FName& CandidateFunc : StringFunctionSet)
 	{
-		if (!CandidateFunc.ToString().Equals(FunctionName))
+		FString CandidateClassName;
+		FString CandidateFunctionName;
+
+		bool bIsSplited = CandidateFunc.ToString().Split(TEXT("_"), &CandidateClassName, &CandidateFunctionName, ESearchCase::IgnoreCase);
+
+		if (!bIsSplited)
+		{
+			continue;
+		}
+
+		if (!CandidateClassName.Contains(ClassName) && !CandidateFunctionName.Contains(FunctionName))
 		{
 			continue;
 		}
@@ -337,7 +385,17 @@ bool UFunctionInvokeData::HasIntFunction(FString ClassName, FString FunctionName
 
 	for (const FName& CandidateFunc : IntFunctionSet)
 	{
-		if (!CandidateFunc.ToString().Equals(FunctionName))
+		FString CandidateClassName;
+		FString CandidateFunctionName;
+
+		bool bIsSplited = CandidateFunc.ToString().Split(TEXT("_"), &CandidateClassName, &CandidateFunctionName, ESearchCase::IgnoreCase);
+
+		if (!bIsSplited)
+		{
+			continue;
+		}
+
+		if (!CandidateClassName.Contains(ClassName) && !CandidateFunctionName.Contains(FunctionName))
 		{
 			continue;
 		}
@@ -365,7 +423,17 @@ bool UFunctionInvokeData::HasTextureFunction(FString ClassName, FString Function
 
 	for (const FName& CandidateFunc : TextureFunctionSet)
 	{
-		if (!CandidateFunc.ToString().Equals(FunctionName))
+		FString CandidateClassName;
+		FString CandidateFunctionName;
+
+		bool bIsSplited = CandidateFunc.ToString().Split(TEXT("_"), &CandidateClassName, &CandidateFunctionName, ESearchCase::IgnoreCase);
+
+		if (!bIsSplited)
+		{
+			continue;
+		}
+
+		if (!CandidateClassName.Contains(ClassName) && !CandidateFunctionName.Contains(FunctionName))
 		{
 			continue;
 		}
@@ -393,7 +461,17 @@ bool UFunctionInvokeData::HasNameFunction(FString ClassName, FString FunctionNam
 
 	for (const FName& CandidateFunc : NameFunctionSet)
 	{
-		if (!CandidateFunc.ToString().Equals(FunctionName))
+		FString CandidateClassName;
+		FString CandidateFunctionName;
+
+		bool bIsSplited = CandidateFunc.ToString().Split(TEXT("_"), &CandidateClassName, &CandidateFunctionName, ESearchCase::IgnoreCase);
+
+		if (!bIsSplited)
+		{
+			continue;
+		}
+
+		if (!CandidateClassName.Contains(ClassName) && !CandidateFunctionName.Contains(FunctionName))
 		{
 			continue;
 		}
@@ -421,7 +499,17 @@ bool UFunctionInvokeData::HasVector2DFunction(FString ClassName, FString Functio
 
 	for (const FName& CandidateFunc : Vector2DFunctionSet)
 	{
-		if (!CandidateFunc.ToString().Equals(FunctionName))
+		FString CandidateClassName;
+		FString CandidateFunctionName;
+
+		bool bIsSplited = CandidateFunc.ToString().Split(TEXT("_"), &CandidateClassName, &CandidateFunctionName, ESearchCase::IgnoreCase);
+
+		if (!bIsSplited)
+		{
+			continue;
+		}
+
+		if (!CandidateClassName.Contains(ClassName) && !CandidateFunctionName.Contains(FunctionName))
 		{
 			continue;
 		}
@@ -449,7 +537,17 @@ bool UFunctionInvokeData::HasVector3DFunction(FString ClassName, FString Functio
 
 	for (const FName& CandidateFunc : Vector3DFunctionSet)
 	{
-		if (!CandidateFunc.ToString().Equals(FunctionName))
+		FString CandidateClassName;
+		FString CandidateFunctionName;
+
+		bool bIsSplited = CandidateFunc.ToString().Split(TEXT("_"), &CandidateClassName, &CandidateFunctionName, ESearchCase::IgnoreCase);
+
+		if (!bIsSplited)
+		{
+			continue;
+		}
+
+		if (!CandidateClassName.Contains(ClassName) && !CandidateFunctionName.Contains(FunctionName))
 		{
 			continue;
 		}
@@ -476,6 +574,7 @@ void UFunctionInvokeData::CreateFunctionData()
  	FString DataPathName = TEXT("/Game/FunctionInvoke/BP_FuncInvoke");
 	UPackage* FunctionDataPac = CreatePackage(*DataPathName);
 
+
 	TObjectPtr<UObject> FuncDataObject = NewObject<UFunctionInvokeData>(FunctionDataPac, UFunctionInvokeData::StaticClass(), TEXT("BP_FuncInvoke"), EObjectFlags::RF_Public | EObjectFlags::RF_Standalone);
 	FAssetRegistryModule::AssetCreated(FuncDataObject);
 
@@ -489,8 +588,10 @@ void UFunctionInvokeData::CreateFunctionData()
 	SavePackageArgs.bWarnOfLongFilename = true;
 	SavePackageArgs.SaveFlags = SAVE_NoError;
 
-	UPackage::SavePackage(FunctionDataPac, nullptr, *PackageFileName, SavePackageArgs);
 	RefreshFunctionData();
+
+	FunctionDataPac->MarkPackageDirty();
+	UPackage::SavePackage(FunctionDataPac, nullptr, *PackageFileName, SavePackageArgs);
 #endif
 }
 
@@ -584,15 +685,37 @@ void UFunctionInvokeData::RefreshFunctionData()
 			}
 		}
 	}
+
+	UPackage* PackageData = InvokeData->GetPackage();
+	if (!IsValid(PackageData))
+	{
+		return;
+	}
+
+	FString PackageName = PackageData->GetName();
+	FString PackageFileName = FPackageName::LongPackageNameToFilename(PackageName, FPackageName::GetAssetPackageExtension());
+
+	FSavePackageArgs SavePackageArgs;
+	SavePackageArgs.TopLevelFlags = RF_Public | RF_Standalone;
+	SavePackageArgs.Error = GError;
+	SavePackageArgs.bForceByteSwapping = false;
+	SavePackageArgs.bWarnOfLongFilename = true;
+	SavePackageArgs.SaveFlags = SAVE_NoError;
+
+	PackageData->MarkPackageDirty();
+	UPackage::SavePackage(PackageData, nullptr, *PackageFileName, SavePackageArgs);
 }
 
 void UFunctionInvokeData::PostInitProperties()
 {
 	Super::PostInitProperties();
 	UE_LOG(LogTemp, Log, TEXT("PostInitProperties"));
+
+	RefreshFunctionData();
 }
 
 void UFunctionInvokeData::OnCompiled()
 {
 	UE_LOG(LogTemp, Log, TEXT("On Compiled"));
+	RefreshFunctionData();
 }

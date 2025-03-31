@@ -2,9 +2,16 @@
 
 
 #include "VirtualTrackerGameModeBase.h"
+#include "FunctionInvokeInputComponent.h"
 
 AVirtualTrackerGameModeBase::AVirtualTrackerGameModeBase()
 {
+
+}
+
+void AVirtualTrackerGameModeBase::BeginPlay()
+{
+	InitInvokeInterface();
 }
 
 void AVirtualTrackerGameModeBase::TextInput()
